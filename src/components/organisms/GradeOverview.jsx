@@ -42,9 +42,8 @@ const GradeOverview = () => {
       
       <div className="space-y-4">
         {courses.map((course) => {
-          const gradeColor = course.currentGrade >= 90 ? "text-success" : 
-                            course.currentGrade >= 80 ? "text-warning" : "text-error";
-          
+const gradeColor = (course.currentGrade || 0) >= 90 ? "text-success" : 
+                            (course.currentGrade || 0) >= 80 ? "text-warning" : "text-error";
           return (
             <div
               key={course.Id}
@@ -71,10 +70,10 @@ className="w-10 h-10 rounded-lg flex items-center justify-center text-white font
               <div className="flex items-center space-x-4 flex-shrink-0">
                 <div className="text-right">
                   <div className={`font-bold ${gradeColor}`}>
-                    {getLetterGrade(course.currentGrade)}
+{course.currentGrade != null ? getLetterGrade(course.currentGrade) : "N/A"}
                   </div>
                   <div className="text-sm text-secondary">
-                    {course.currentGrade.toFixed(1)}%
+{course.currentGrade != null ? course.currentGrade.toFixed(1) : "N/A"}%
                   </div>
                 </div>
                 
@@ -82,7 +81,7 @@ className="w-10 h-10 rounded-lg flex items-center justify-center text-white font
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
                       className="h-2 rounded-full bg-gradient-to-r from-primary to-blue-600 transition-all duration-500"
-                      style={{ width: `${Math.min(course.currentGrade, 100)}%` }}
+style={{ width: `${Math.min(course.currentGrade || 0, 100)}%` }}
                     />
                   </div>
                 </div>
