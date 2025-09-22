@@ -24,13 +24,25 @@ const Header = ({ onMenuClick, title, subtitle }) => {
           </div>
         </div>
         
-        <div className="flex items-center space-x-4">
+<div className="flex items-center space-x-4">
           <Button variant="ghost" size="sm">
             <ApperIcon name="Bell" size={20} />
           </Button>
           
           <Button variant="ghost" size="sm">
             <ApperIcon name="Settings" size={20} />
+          </Button>
+          
+          <Button variant="ghost" size="sm" onClick={async () => {
+            try {
+              const { ApperUI } = window.ApperSDK;
+              await ApperUI.logout();
+              window.location.href = '/login';
+            } catch (error) {
+              console.error("Logout failed:", error);
+            }
+          }}>
+            <ApperIcon name="LogOut" size={20} />
           </Button>
           
           <div className="w-8 h-8 bg-gradient-to-br from-primary to-blue-600 rounded-full flex items-center justify-center">

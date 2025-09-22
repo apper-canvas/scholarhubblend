@@ -41,13 +41,12 @@ const Dashboard = () => {
   if (error) return <Error message={error} onRetry={loadData} />;
 
   const gpa = calculateGPA(courses);
-  const totalCredits = courses.reduce((sum, course) => sum + course.credits, 0);
-  
-  const upcomingAssignments = assignments.filter(assignment => {
-    const dueDate = new Date(assignment.dueDate);
+const totalCredits = courses.reduce((sum, course) => sum + (course.credits_c || 0), 0);
+const upcomingAssignments = assignments.filter(assignment => {
+    const dueDate = new Date(assignment.due_date_c);
     const today = new Date();
     const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-    return !assignment.completed && dueDate >= today && dueDate <= nextWeek;
+    return !assignment.completed_c && dueDate >= today && dueDate <= nextWeek;
   });
 
   return (

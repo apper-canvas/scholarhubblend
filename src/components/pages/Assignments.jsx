@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import ApperIcon from "@/components/ApperIcon";
-import Button from "@/components/atoms/Button";
-import SearchBar from "@/components/molecules/SearchBar";
-import FilterSelect from "@/components/molecules/FilterSelect";
-import AssignmentItem from "@/components/molecules/AssignmentItem";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
+import React, { useEffect, useState } from "react";
 import { assignmentService } from "@/services/api/assignmentService";
 import { courseService } from "@/services/api/courseService";
 import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
+import SearchBar from "@/components/molecules/SearchBar";
+import AssignmentItem from "@/components/molecules/AssignmentItem";
+import FilterSelect from "@/components/molecules/FilterSelect";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
+import Button from "@/components/atoms/Button";
 
 const Assignments = () => {
   const [assignments, setAssignments] = useState([]);
@@ -54,50 +54,68 @@ const Assignments = () => {
 
     // Search filter
     if (searchQuery.trim()) {
-      filtered = filtered.filter(assignment =>
-        assignment.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        assignment.description.toLowerCase().includes(searchQuery.toLowerCase())
+filtered = filtered.filter(assignment =>
+        assignment.title_c?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        assignment.description_c?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
-    // Course filter
+// Course filter
     if (filterCourse) {
-      filtered = filtered.filter(assignment => assignment.courseId === parseInt(filterCourse));
+      filtered = filtered.filter(assignment => {
+        const courseId = assignment.course_id_c?.Id || assignment.course_id_c || assignment.courseId;
+        return courseId === parseInt(filterCourse);
+      });
     }
 
     // Priority filter
     if (filterPriority) {
-      filtered = filtered.filter(assignment => assignment.priority === filterPriority);
+      filtered = filtered.filter(assignment => {
+        const priority = assignment.priority_c || assignment.priority;
+        return priority === filterPriority;
+      });
     }
 
     // Status filter
     if (filterStatus) {
       if (filterStatus === "completed") {
-        filtered = filtered.filter(assignment => assignment.completed);
+        filtered = filtered.filter(assignment => {
+          const completed = assignment.completed_c || assignment.completed;
+          return completed;
+        });
       } else if (filterStatus === "pending") {
-        filtered = filtered.filter(assignment => !assignment.completed);
+        filtered = filtered.filter(assignment => {
+          const completed = assignment.completed_c || assignment.completed;
+          return !completed;
+        });
       } else if (filterStatus === "overdue") {
-        filtered = filtered.filter(assignment => 
-          !assignment.completed && new Date(assignment.dueDate) < new Date()
-        );
+        filtered = filtered.filter(assignment => {
+          const completed = assignment.completed_c || assignment.completed;
+          const dueDate = assignment.due_date_c || assignment.dueDate;
+          return !completed && dueDate && new Date(dueDate) < new Date();
+        });
       }
     }
 
     // Sort by due date
-    filtered.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
-
+    filtered = filtered.sort((a, b) => {
+      const dateA = new Date(a.due_date_c || a.dueDate || 0);
+      const dateB = new Date(b.due_date_c || b.dueDate || 0);
+      return dateA - dateB;
+    });
     setFilteredAssignments(filtered);
   }, [assignments, searchQuery, filterCourse, filterPriority, filterStatus]);
 
   const handleToggleComplete = async (id) => {
     try {
-      const updatedAssignment = await assignmentService.toggleComplete(id);
+const updatedAssignment = await assignmentService.toggleComplete(id);
       setAssignments(prev => prev.map(assignment => 
         assignment.Id === id ? updatedAssignment : assignment
       ));
       
+      const isCompleted = updatedAssignment?.completed_c || updatedAssignment?.completed;
       toast.success(
-        updatedAssignment.completed ? "Assignment completed!" : "Assignment marked incomplete",
+        isCompleted ? "Assignment completed!" : "Assignment marked incomplete",
         { position: "top-right" }
       );
     } catch (err) {
@@ -106,7 +124,7 @@ const Assignments = () => {
   };
 
   const handleEdit = (assignment) => {
-    toast.info(`Editing ${assignment.title}`, { position: "top-right" });
+toast.info(`Editing ${assignment.title_c}`, { position: "top-right" });
   };
 
   const handleDelete = async (id) => {
@@ -121,8 +139,9 @@ const Assignments = () => {
     }
   };
 
-  const getCourseById = (courseId) => {
-    return courses.find(course => course.Id === courseId);
+const getCourseById = (courseId) => {
+    if (!courseId || !courses?.length) return null;
+    return courses.find(course => course.Id === courseId) || null;
   };
 
   const clearFilters = () => {
@@ -238,9 +257,9 @@ const Assignments = () => {
         <div className="space-y-4">
           {filteredAssignments.map((assignment) => (
             <AssignmentItem
-              key={assignment.Id}
+key={assignment.Id}
               assignment={assignment}
-              course={getCourseById(assignment.courseId)}
+              course={getCourseById(assignment.course_id_c?.Id || assignment.course_id_c || assignment.courseId)}
               onToggleComplete={handleToggleComplete}
               onEdit={handleEdit}
               onDelete={handleDelete}
@@ -262,23 +281,23 @@ const Assignments = () => {
             </div>
             
             <div className="text-center">
-              <div className="text-2xl font-bold text-success mb-1">
-                {assignments.filter(a => a.completed).length}
+<div className="text-2xl font-bold text-success mb-1">
+                {assignments.filter(a => a.completed_c).length}
               </div>
               <div className="text-sm text-secondary">Completed</div>
             </div>
             
             <div className="text-center">
-              <div className="text-2xl font-bold text-warning mb-1">
-                {assignments.filter(a => !a.completed).length}
+<div className="text-2xl font-bold text-warning mb-1">
+                {assignments.filter(a => !a.completed_c).length}
               </div>
               <div className="text-sm text-secondary">Pending</div>
             </div>
             
             <div className="text-center">
               <div className="text-2xl font-bold text-error mb-1">
-                {assignments.filter(a => 
-                  !a.completed && new Date(a.dueDate) < new Date()
+{assignments.filter(a => 
+                  !a.completed_c && new Date(a.due_date_c) < new Date()
                 ).length}
               </div>
               <div className="text-sm text-secondary">Overdue</div>

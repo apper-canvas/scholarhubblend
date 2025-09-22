@@ -37,7 +37,7 @@ const Grades = () => {
       setCategories(categoriesData);
       
       if (coursesData.length > 0 && !selectedCourse) {
-        setSelectedCourse(coursesData[0].Id.toString());
+setSelectedCourse(coursesData[0].Id.toString());
       }
     } catch (err) {
       setError(err.message);
@@ -51,8 +51,8 @@ const Grades = () => {
   }, []);
 
   const currentCourse = courses.find(course => course.Id === parseInt(selectedCourse));
-  const courseAssignments = assignments.filter(assignment => 
-    assignment.courseId === parseInt(selectedCourse)
+const courseAssignments = assignments.filter(assignment => 
+    (assignment.course_id_c?.Id || assignment.course_id_c) === parseInt(selectedCourse)
   );
   const courseCategories = categories.filter(category => 
     category.courseId === parseInt(selectedCourse)
@@ -68,8 +68,8 @@ const Grades = () => {
     
     if (gradedAssignments.length === 0) return 0;
     
-    const total = gradedAssignments.reduce((sum, assignment) => {
-      return sum + (assignment.grade / assignment.maxPoints * 100);
+const total = gradedAssignments.reduce((sum, assignment) => {
+      return sum + ((assignment.grade_c || 0) / (assignment.max_points_c || 1) * 100);
     }, 0);
     
     return total / gradedAssignments.length;
@@ -110,8 +110,8 @@ const Grades = () => {
             className="min-w-[200px]"
           >
             {courses.map(course => (
-              <option key={course.Id} value={course.Id}>
-                {course.name}
+<option key={course.Id} value={course.Id}>
+                {course.name_c}
               </option>
             ))}
           </Select>
@@ -131,35 +131,35 @@ const Grades = () => {
               <div className="flex items-center space-x-4">
                 <div 
                   className="w-16 h-16 rounded-xl flex items-center justify-center text-white font-bold text-xl"
-                  style={{ backgroundColor: currentCourse.color }}
+style={{ backgroundColor: currentCourse.color_c }}
                 >
-                  {currentCourse.name.charAt(0)}
+                  {currentCourse.name_c?.charAt(0) || 'C'}
                 </div>
                 
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-1">
-                    {currentCourse.name}
+<h2 className="text-2xl font-bold text-gray-900 mb-1">
+                    {currentCourse.name_c}
                   </h2>
                   <p className="text-secondary">
-                    {currentCourse.instructor} • {currentCourse.credits} Credits • {currentCourse.semester}
+                    {currentCourse.instructor_c} • {currentCourse.credits_c} Credits • {currentCourse.semester_c}
                   </p>
                 </div>
               </div>
               
               <div className="text-right">
                 <div className="text-4xl font-bold gradient-text mb-1">
-                  {getLetterGrade(currentCourse.currentGrade)}
+{getLetterGrade(currentCourse.current_grade_c || 0)}
                 </div>
                 <div className="text-xl text-secondary">
-                  {currentCourse.currentGrade.toFixed(1)}%
+                  {(currentCourse.current_grade_c || 0).toFixed(1)}%
                 </div>
               </div>
             </div>
             
             <div className="w-full bg-gray-200 rounded-full h-3">
               <div 
-                className="h-3 rounded-full bg-gradient-to-r from-primary to-blue-600 transition-all duration-500"
-                style={{ width: `${Math.min(currentCourse.currentGrade, 100)}%` }}
+className="h-3 rounded-full bg-gradient-to-r from-primary to-blue-600 transition-all duration-500"
+                style={{ width: `${Math.min(currentCourse.current_grade_c || 0, 100)}%` }}
               />
             </div>
           </Card>
@@ -176,8 +176,8 @@ const Grades = () => {
                   <Card key={category.Id} className="p-6">
                     <div className="flex items-center justify-between mb-4">
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          {category.name}
+<h3 className="text-lg font-semibold text-gray-900">
+                          {category.name_c}
                         </h3>
                         <p className="text-sm text-secondary">
                           {category.weight}% of final grade
@@ -206,23 +206,23 @@ const Grades = () => {
                         categoryAssignments.map((assignment) => (
                           <div key={assignment.Id} className="flex items-center justify-between py-2">
                             <div className="flex-1">
-                              <h4 className="font-medium text-gray-900">
-                                {assignment.title}
+<h4 className="font-medium text-gray-900">
+                                {assignment.title_c}
                               </h4>
                               <p className="text-sm text-secondary">
-                                Max: {assignment.maxPoints} pts
+                                Max: {assignment.max_points_c} pts
                               </p>
                             </div>
                             
                             <div className="flex items-center space-x-2">
                               {assignment.grade > 0 ? (
                                 <Badge 
-                                  variant={
-                                    assignment.grade / assignment.maxPoints >= 0.9 ? "success" :
-                                    assignment.grade / assignment.maxPoints >= 0.8 ? "warning" : "error"
+variant={
+                                    (assignment.grade_c || 0) / (assignment.max_points_c || 1) >= 0.9 ? "success" :
+                                    (assignment.grade_c || 0) / (assignment.max_points_c || 1) >= 0.8 ? "warning" : "error"
                                   }
                                 >
-                                  {assignment.grade}/{assignment.maxPoints}
+                                  {assignment.grade_c || 0}/{assignment.max_points_c || 0}
                                 </Badge>
                               ) : (
                                 <Badge variant="default">
@@ -265,28 +265,28 @@ const Grades = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center p-4 bg-primary/5 rounded-lg">
                 <div className="text-2xl font-bold text-primary mb-1">
-                  {courseAssignments.filter(a => a.completed).length}
+{courseAssignments.filter(a => a.completed_c).length}
                 </div>
                 <div className="text-sm text-secondary">Completed</div>
               </div>
               
               <div className="text-center p-4 bg-accent/5 rounded-lg">
                 <div className="text-2xl font-bold text-accent mb-1">
-                  {courseAssignments.filter(a => a.grade > 0).length}
+{courseAssignments.filter(a => (a.grade_c || 0) > 0).length}
                 </div>
                 <div className="text-sm text-secondary">Graded</div>
               </div>
               
               <div className="text-center p-4 bg-success/5 rounded-lg">
                 <div className="text-2xl font-bold text-success mb-1">
-                  {courseAssignments.filter(a => a.grade / a.maxPoints >= 0.9).length}
+{courseAssignments.filter(a => ((a.grade_c || 0) / (a.max_points_c || 1)) >= 0.9).length}
                 </div>
                 <div className="text-sm text-secondary">A Grades</div>
               </div>
               
               <div className="text-center p-4 bg-warning/5 rounded-lg">
                 <div className="text-2xl font-bold text-warning mb-1">
-                  {courseAssignments.reduce((sum, a) => sum + a.maxPoints, 0)}
+{courseAssignments.reduce((sum, a) => sum + (a.max_points_c || 0), 0)}
                 </div>
                 <div className="text-sm text-secondary">Total Points</div>
               </div>

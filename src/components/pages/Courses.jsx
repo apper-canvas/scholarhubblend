@@ -50,22 +50,22 @@ const Courses = () => {
       setFilteredCourses(courses);
     } else {
       const filtered = courses.filter(course =>
-        course.name.toLowerCase().includes(query.toLowerCase()) ||
-        course.instructor.toLowerCase().includes(query.toLowerCase()) ||
-        course.semester.toLowerCase().includes(query.toLowerCase())
+course.name_c?.toLowerCase().includes(query.toLowerCase()) ||
+        course.instructor_c?.toLowerCase().includes(query.toLowerCase()) ||
+        course.semester_c?.toLowerCase().includes(query.toLowerCase())
       );
       setFilteredCourses(filtered);
     }
   };
 
   const handleCourseClick = (course) => {
-    toast.info(`Viewing ${course.name}`, {
+toast.info(`Viewing ${course.name_c}`, {
       position: "top-right"
     });
   };
 
   const getAssignmentCount = (courseId) => {
-    return assignments.filter(assignment => assignment.courseId === courseId).length;
+return assignments.filter(assignment => assignment.course_id_c?.Id === courseId || assignment.course_id_c === courseId).length;
   };
 
   if (loading) return <Loading variant="cards" />;
@@ -151,7 +151,7 @@ const Courses = () => {
             
             <div className="text-center">
               <div className="text-2xl font-bold text-accent mb-1">
-                {courses.reduce((sum, course) => sum + course.credits, 0)}
+{courses.reduce((sum, course) => sum + (course.credits_c || 0), 0)}
               </div>
               <div className="text-sm text-secondary">Total Credits</div>
             </div>
@@ -166,7 +166,7 @@ const Courses = () => {
             <div className="text-center">
 <div className="text-2xl font-bold text-warning mb-1">
                 {courses.length > 0 
-                  ? (courses.reduce((sum, course) => sum + course.currentGrade, 0) / courses.length).toFixed(1)
+? (courses.reduce((sum, course) => sum + (course.current_grade_c || 0), 0) / courses.length).toFixed(1)
                   : "0.0"
                 }%
               </div>

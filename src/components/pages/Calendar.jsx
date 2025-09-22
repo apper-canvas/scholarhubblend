@@ -52,8 +52,8 @@ const Calendar = () => {
   const calendarDays = eachDayOfInterval({ start: calendarStart, end: calendarEnd });
 
   const getAssignmentsForDate = (date) => {
-    return assignments.filter(assignment => {
-      const assignmentDate = new Date(assignment.dueDate);
+return assignments.filter(assignment => {
+      const assignmentDate = new Date(assignment.due_date_c);
       return isSameDay(assignmentDate, date);
     });
   };
@@ -174,17 +174,17 @@ return (
                     
                     <div className="space-y-1">
                       {dayAssignments.slice(0, 2).map((assignment) => {
-                        const course = getCourseById(assignment.courseId);
+const course = getCourseById(assignment.course_id_c?.Id || assignment.course_id_c);
                         return (
                           <div
                             key={assignment.Id}
                             className="text-xs p-1 rounded truncate"
                             style={{ 
-                              backgroundColor: course ? `${course.color}20` : "#f1f5f9",
-                              color: course?.color || "#64748b"
+                              backgroundColor: course ? `${course.color_c}20` : "#f1f5f9",
+                              color: course?.color_c || "#64748b"
                             }}
                           >
-                            {assignment.title}
+                            {assignment.title_c}
                           </div>
                         );
                       })}
@@ -214,17 +214,17 @@ return (
               {selectedDateAssignments.length > 0 ? (
                 <div className="space-y-3">
                   {selectedDateAssignments.map((assignment) => {
-                    const course = getCourseById(assignment.courseId);
-                    const dueDateColor = getDueDateColor(assignment.dueDate);
+const course = getCourseById(assignment.course_id_c?.Id || assignment.course_id_c);
+                    const dueDateColor = getDueDateColor(assignment.due_date_c);
                     
                     return (
                       <div key={assignment.Id} className="p-3 rounded-lg bg-slate-50">
                         <div className="flex items-start justify-between mb-2">
                           <h4 className="font-medium text-gray-900 text-sm">
-                            {assignment.title}
+                            {assignment.title_c}
                           </h4>
-                          <Badge variant={assignment.priority?.toLowerCase() || "default"} size="sm">
-                            {assignment.priority}
+                          <Badge variant={assignment.priority_c?.toLowerCase() || "default"} size="sm">
+                            {assignment.priority_c}
                           </Badge>
                         </div>
                         
@@ -232,17 +232,17 @@ return (
                           <div className="flex items-center text-xs text-secondary">
                             <div 
                               className="w-2 h-2 rounded-full mr-2"
-                              style={{ backgroundColor: course.color }}
+                              style={{ backgroundColor: course.color_c }}
                             />
-                            {course.name}
+                            {course.name_c}
                           </div>
                         )}
                         
                         <div className="flex items-center mt-2 text-xs">
                           <ApperIcon name="Clock" size={12} className={`mr-1 ${dueDateColor}`} />
                           <span className={dueDateColor}>
-                            {format(new Date(assignment.dueDate), "h:mm a")}
-</span>
+                            {format(new Date(assignment.due_date_c), "h:mm a")}
+                          </span>
                         </div>
                       </div>
                     );
@@ -262,39 +262,39 @@ return (
               Upcoming Assignments
             </h3>
             
-            {assignments
+{assignments
               .filter(assignment => 
-                !assignment.completed && new Date(assignment.dueDate) >= new Date()
+                !assignment.completed_c && new Date(assignment.due_date_c) >= new Date()
               )
-              .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+              .sort((a, b) => new Date(a.due_date_c) - new Date(b.due_date_c))
               .slice(0, 5)
               .map((assignment) => {
-                const course = getCourseById(assignment.courseId);
-                const dueDateColor = getDueDateColor(assignment.dueDate);
+                const course = getCourseById(assignment.course_id_c?.Id || assignment.course_id_c);
+                const dueDateColor = getDueDateColor(assignment.due_date_c);
                 
                 return (
                   <div key={assignment.Id} className="mb-4 last:mb-0">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <h4 className="font-medium text-gray-900 text-sm mb-1">
-                          {assignment.title}
+                          {assignment.title_c}
                         </h4>
                         {course && (
                           <div className="flex items-center text-xs text-secondary mb-1">
                             <div 
                               className="w-2 h-2 rounded-full mr-2"
-                              style={{ backgroundColor: course.color }}
+                              style={{ backgroundColor: course.color_c }}
                             />
-                            {course.name}
+                            {course.name_c}
                           </div>
                         )}
                         <div className={`text-xs ${dueDateColor}`}>
-                          {format(new Date(assignment.dueDate), "MMM d, h:mm a")}
+                          {format(new Date(assignment.due_date_c), "MMM d, h:mm a")}
                         </div>
                       </div>
                       
-                      <Badge variant={assignment.priority?.toLowerCase() || "default"} size="sm">
-                        {assignment.priority}
+                      <Badge variant={assignment.priority_c?.toLowerCase() || "default"} size="sm">
+                        {assignment.priority_c}
                       </Badge>
                     </div>
                   </div>
@@ -310,13 +310,13 @@ return (
             
             <div className="space-y-2">
               {courses.map((course) => (
-                <div key={course.Id} className="flex items-center text-sm">
+<div key={course.Id} className="flex items-center text-sm">
                   <div 
                     className="w-3 h-3 rounded-full mr-3"
-                    style={{ backgroundColor: course.color }}
+                    style={{ backgroundColor: course.color_c }}
                   />
                   <span className="text-gray-700 truncate">
-                    {course.name}
+                    {course.name_c}
                   </span>
                 </div>
               ))}
