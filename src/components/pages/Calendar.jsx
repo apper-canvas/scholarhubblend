@@ -107,13 +107,13 @@ return (
           {/* Calendar Grid */}
           <div className="lg:col-span-3">
             <Card className="overflow-hidden">
-              <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-6 py-4 border-b border-slate-200">
+<div className="bg-gradient-to-r from-slate-50 to-slate-100 px-6 py-4 border-b border-slate-200">
                 <div className="flex items-center justify-between">
                   <h2 className="text-2xl font-bold text-gray-900 flex items-center">
                     <ApperIcon name="Calendar" size={24} className="mr-2 text-primary" />
                     {format(currentDate, "MMMM yyyy")}
                   </h2>
-              <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2">
                 <Button
                   variant="outline"
                   size="sm"
@@ -198,6 +198,7 @@ return (
                   </div>
                 );
 })}
+            </div>
             </div>
             </Card>
           </div>
