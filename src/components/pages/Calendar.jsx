@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ScheduleGrid from "@/components/organisms/ScheduleGrid";
 import { assignmentService } from "@/services/api/assignmentService";
 import { courseService } from "@/services/api/courseService";
 import { eachDayOfInterval, endOfMonth, endOfWeek, format, isSameDay, isSameMonth, isToday, startOfMonth, startOfWeek } from "date-fns";
@@ -11,6 +10,7 @@ import Loading from "@/components/ui/Loading";
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import Badge from "@/components/atoms/Badge";
+import ScheduleGrid from "@/components/organisms/ScheduleGrid";
 import { getDueDateColor } from "@/utils/dateUtils";
 
 const Calendar = () => {
@@ -73,8 +73,8 @@ const Calendar = () => {
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadData} />;
 
-  return (
-<div className="space-y-6">
+return (
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
@@ -97,7 +97,6 @@ const Calendar = () => {
             Add Event
           </Button>
         </div>
-</div>
       </div>
 
       {/* Conditional Rendering based on viewMode */}
@@ -198,11 +197,10 @@ const Calendar = () => {
                     </div>
                   </div>
                 );
-              })}
+})}
             </div>
-</Card>
+            </Card>
           </div>
-
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Selected Date Details */}
@@ -324,8 +322,7 @@ const Calendar = () => {
             </div>
 </Card>
         </div>
-        </div>
-        </>
+      </div>
       )}
     </div>
   );
