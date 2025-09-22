@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import ScheduleGrid from "@/components/organisms/ScheduleGrid";
+import { assignmentService } from "@/services/api/assignmentService";
+import { courseService } from "@/services/api/courseService";
+import { eachDayOfInterval, endOfMonth, endOfWeek, format, isSameDay, isSameMonth, isToday, startOfMonth, startOfWeek } from "date-fns";
 import ApperIcon from "@/components/ApperIcon";
+import Assignments from "@/components/pages/Assignments";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import Badge from "@/components/atoms/Badge";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
-import { assignmentService } from "@/services/api/assignmentService";
-import { courseService } from "@/services/api/courseService";
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, isToday, startOfWeek, endOfWeek } from "date-fns";
 import { getDueDateColor } from "@/utils/dateUtils";
 
 const Calendar = () => {
@@ -18,7 +20,8 @@ const Calendar = () => {
   const [error, setError] = useState(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
-
+  const [viewMode, setViewMode] = useState('calendar'); // 'calendar' or 'schedule'
+  
   const loadData = async () => {
     try {
       setLoading(true);
@@ -71,32 +74,46 @@ const Calendar = () => {
   if (error) return <Error message={error} onRetry={loadData} />;
 
   return (
-    <div className="space-y-6">
+<div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold gradient-text mb-2">Calendar</h1>
           <p className="text-secondary">
-            View your assignment deadlines and schedule
+            View your assignment deadlines and course schedule
           </p>
         </div>
         
-        <Button>
-          <ApperIcon name="Plus" size={20} className="mr-2" />
-          Add Event
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            onClick={() => setViewMode(viewMode === 'calendar' ? 'schedule' : 'calendar')}
+            className="bg-gray-100 text-gray-700 hover:bg-gray-200"
+          >
+            <ApperIcon name={viewMode === 'calendar' ? 'Grid3X3' : 'Calendar'} size={20} className="mr-2" />
+            {viewMode === 'calendar' ? 'Schedule Grid' : 'Calendar View'}
+          </Button>
+          <Button>
+            <ApperIcon name="Plus" size={20} className="mr-2" />
+            Add Event
+          </Button>
+        </div>
+</div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Calendar */}
-        <div className="lg:col-span-3">
-          <Card className="p-6">
-            {/* Calendar Header */}
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">
-                {format(currentDate, "MMMM yyyy")}
-              </h2>
-              
+      {/* Conditional Rendering based on viewMode */}
+      {viewMode === 'schedule' ? (
+        <ScheduleGrid />
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Calendar Grid */}
+          <div className="lg:col-span-3">
+            <Card className="overflow-hidden">
+              <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-6 py-4 border-b border-slate-200">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-gray-900 flex items-center">
+                    <ApperIcon name="Calendar" size={24} className="mr-2 text-primary" />
+                    {format(currentDate, "MMMM yyyy")}
+                  </h2>
               <div className="flex items-center space-x-2">
                 <Button
                   variant="outline"
@@ -183,8 +200,8 @@ const Calendar = () => {
                 );
               })}
             </div>
-          </Card>
-        </div>
+</Card>
+          </div>
 
         {/* Sidebar */}
         <div className="space-y-6">
@@ -226,20 +243,20 @@ const Calendar = () => {
                           <ApperIcon name="Clock" size={12} className={`mr-1 ${dueDateColor}`} />
                           <span className={dueDateColor}>
                             {format(new Date(assignment.dueDate), "h:mm a")}
-                          </span>
+</span>
                         </div>
                       </div>
                     );
                   })}
                 </div>
               ) : (
-                <p className="text-secondary text-sm">
-                  No assignments due on this date
-                </p>
+                <Empty 
+                  title="No assignments"
+                  description={`No assignments due on ${format(selectedDate, "MMMM d, yyyy")}`}
+                />
               )}
             </Card>
           )}
-
           {/* Upcoming Assignments */}
           <Card className="p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
@@ -305,9 +322,11 @@ const Calendar = () => {
                 </div>
               ))}
             </div>
-          </Card>
+</Card>
         </div>
-      </div>
+        </div>
+        </>
+      )}
     </div>
   );
 };
