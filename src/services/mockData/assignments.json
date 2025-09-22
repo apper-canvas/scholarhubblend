@@ -1,0 +1,122 @@
+[
+  {
+    "Id": 1,
+    "courseId": 1,
+    "title": "Binary Search Tree Implementation",
+    "description": "Implement a complete BST with insertion, deletion, and traversal methods",
+    "dueDate": "2024-01-25T23:59:00",
+    "priority": "High",
+    "completed": false,
+    "grade": 0,
+    "maxPoints": 100,
+    "category": "Programming Projects"
+  },
+  {
+    "Id": 2,
+    "courseId": 1,
+    "title": "Algorithm Analysis Quiz",
+    "description": "Quiz covering Big O notation and time complexity analysis",
+    "dueDate": "2024-01-22T14:30:00",
+    "priority": "Medium",
+    "completed": true,
+    "grade": 88,
+    "maxPoints": 100,
+    "category": "Quizzes"
+  },
+  {
+    "Id": 3,
+    "courseId": 2,
+    "title": "Triple Integrals Problem Set",
+    "description": "Solve problems involving triple integrals in cylindrical and spherical coordinates",
+    "dueDate": "2024-01-26T11:59:00",
+    "priority": "High",
+    "completed": false,
+    "grade": 0,
+    "maxPoints": 80,
+    "category": "Homework"
+  },
+  {
+    "Id": 4,
+    "courseId": 2,
+    "title": "Midterm Exam",
+    "description": "Comprehensive exam covering chapters 1-6",
+    "dueDate": "2024-02-05T10:00:00",
+    "priority": "High",
+    "completed": false,
+    "grade": 0,
+    "maxPoints": 200,
+    "category": "Exams"
+  },
+  {
+    "Id": 5,
+    "courseId": 3,
+    "title": "Electromagnetic Induction Lab Report",
+    "description": "Analysis of Faraday's law experiments with data visualization",
+    "dueDate": "2024-01-28T17:00:00",
+    "priority": "Medium",
+    "completed": false,
+    "grade": 0,
+    "maxPoints": 150,
+    "category": "Lab Reports"
+  },
+  {
+    "Id": 6,
+    "courseId": 4,
+    "title": "Shakespearean Sonnets Essay",
+    "description": "Comparative analysis of three sonnets with focus on literary devices",
+    "dueDate": "2024-02-02T23:59:00",
+    "priority": "Medium",
+    "completed": false,
+    "grade": 0,
+    "maxPoints": 100,
+    "category": "Essays"
+  },
+  {
+    "Id": 7,
+    "courseId": 5,
+    "title": "Hypothesis Testing Assignment",
+    "description": "Statistical analysis of provided dataset using t-tests and ANOVA",
+    "dueDate": "2024-01-30T23:59:00",
+    "priority": "Low",
+    "completed": false,
+    "grade": 0,
+    "maxPoints": 75,
+    "category": "Assignments"
+  },
+  {
+    "Id": 8,
+    "courseId": 1,
+    "title": "Sorting Algorithms Presentation",
+    "description": "Present and analyze different sorting algorithms with performance comparisons",
+    "dueDate": "2024-02-08T09:00:00",
+    "priority": "Medium",
+    "completed": false,
+    "grade": 0,
+    "maxPoints": 120,
+    "category": "Presentations"
+  },
+  {
+    "Id": 9,
+    "courseId": 3,
+    "title": "Circuit Analysis Homework",
+    "description": "Solve AC circuit problems using phasor analysis",
+    "dueDate": "2024-01-24T11:59:00",
+    "priority": "High",
+    "completed": true,
+    "grade": 92,
+    "maxPoints": 100,
+    "category": "Homework"
+  },
+  {
+    "Id": 10,
+    "courseId": 4,
+    "title": "Poetry Recitation",
+    "description": "Memorize and recite a poem of choice with dramatic interpretation",
+    "dueDate": "2024-02-12T15:30:00",
+    "priority": "Low",
+    "completed": false,
+    "grade": 0,
+    "maxPoints": 50,
+    "category": "Presentations"
+  }
+]

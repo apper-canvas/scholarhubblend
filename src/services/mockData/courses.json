@@ -1,0 +1,47 @@
+[
+  {
+    "Id": 1,
+    "name": "Data Structures & Algorithms",
+    "instructor": "Dr. Sarah Chen",
+    "credits": 4,
+    "semester": "Spring 2024",
+    "color": "#2563EB",
+    "currentGrade": 92.5
+  },
+  {
+    "Id": 2,
+    "name": "Calculus III",
+    "instructor": "Prof. Michael Rodriguez",
+    "credits": 3,
+    "semester": "Spring 2024",
+    "color": "#059669",
+    "currentGrade": 87.2
+  },
+  {
+    "Id": 3,
+    "name": "Physics II: Electricity & Magnetism",
+    "instructor": "Dr. Jennifer Park",
+    "credits": 4,
+    "semester": "Spring 2024",
+    "color": "#7C3AED",
+    "currentGrade": 89.8
+  },
+  {
+    "Id": 4,
+    "name": "English Literature",
+    "instructor": "Prof. David Thompson",
+    "credits": 3,
+    "semester": "Spring 2024",
+    "color": "#DC2626",
+    "currentGrade": 94.1
+  },
+  {
+    "Id": 5,
+    "name": "Statistics & Probability",
+    "instructor": "Dr. Lisa Wang",
+    "credits": 3,
+    "semester": "Spring 2024",
+    "color": "#EA580C",
+    "currentGrade": 85.6
+  }
+]
