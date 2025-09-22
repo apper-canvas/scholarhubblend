@@ -12,10 +12,11 @@ function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-        <Routes>
+<Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />
             <Route path="courses" element={<Courses />} />
+            <Route path="courses/add" element={<div className="p-6"><h1>Add Course</h1><p>Course creation form will be implemented here.</p></div>} />
             <Route path="assignments" element={<Assignments />} />
             <Route path="grades" element={<Grades />} />
             <Route path="calendar" element={<Calendar />} />

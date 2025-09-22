@@ -82,7 +82,7 @@ const Courses = () => {
           </p>
         </div>
         
-        <Button className="lg:ml-auto">
+<Button className="lg:ml-auto" onClick={() => navigate('/courses/add')}>
           <ApperIcon name="Plus" size={20} className="mr-2" />
           Add Course
         </Button>
