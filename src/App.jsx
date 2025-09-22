@@ -7,7 +7,7 @@ import Courses from "@/components/pages/Courses";
 import Assignments from "@/components/pages/Assignments";
 import Grades from "@/components/pages/Grades";
 import Calendar from "@/components/pages/Calendar";
-
+import CourseForm from "@/components/forms/CourseForm";
 function App() {
   return (
     <BrowserRouter>
@@ -16,7 +16,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />
             <Route path="courses" element={<Courses />} />
-            <Route path="courses/add" element={<div className="p-6"><h1>Add Course</h1><p>Course creation form will be implemented here.</p></div>} />
+<Route path="courses/add" element={<CourseForm />} />
             <Route path="assignments" element={<Assignments />} />
             <Route path="grades" element={<Grades />} />
             <Route path="calendar" element={<Calendar />} />
