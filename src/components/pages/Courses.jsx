@@ -164,8 +164,11 @@ const Courses = () => {
             </div>
             
             <div className="text-center">
-              <div className="text-2xl font-bold text-warning mb-1">
-                {(courses.reduce((sum, course) => sum + course.currentGrade, 0) / courses.length || 0).toFixed(1)}%
+<div className="text-2xl font-bold text-warning mb-1">
+                {courses.length > 0 
+                  ? (courses.reduce((sum, course) => sum + course.currentGrade, 0) / courses.length).toFixed(1)
+                  : "0.0"
+                }%
               </div>
               <div className="text-sm text-secondary">Avg Grade</div>
             </div>
