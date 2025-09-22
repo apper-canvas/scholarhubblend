@@ -52,10 +52,10 @@ const GradeOverview = () => {
             >
               <div className="flex items-center space-x-3 flex-1">
                 <div 
-                  className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm"
+className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm"
                   style={{ backgroundColor: course.color }}
                 >
-                  {course.name.charAt(0)}
+                  {course.name?.charAt(0) || '?'}
                 </div>
                 
                 <div className="flex-1 min-w-0">
